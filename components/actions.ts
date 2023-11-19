@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/session'
+import { revalidatePath } from 'next/cache'
 
 export const createLink = async (href: string, type: string) => {
 	const currentUser = await getCurrentUser()
@@ -26,4 +27,6 @@ export const createLink = async (href: string, type: string) => {
 		.catch((error) =>
 			console.log(`Error while adding link | actions.ts: ${error}`)
 		)
+
+	revalidatePath('/user')
 }
