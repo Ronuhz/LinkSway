@@ -15,16 +15,25 @@ import {
 	Input,
 	ModalFooter,
 } from '@nextui-org/react'
-import { useState } from 'react'
-
-type linkPlatform = {
-	key: string
-	label: string
-}
+import { ChangeEvent, useState } from 'react'
+import { createLink } from '../actions'
 
 function AddLinkButton() {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
-	const [newLinkPlatform, setNewLinkPlatform] = useState<linkPlatform>()
+	const [linkDetails, setLinkDetails] = useState({
+		platform: { key: '', label: '' },
+		href: '',
+	})
+
+	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value
+		setLinkDetails((prev) => ({ ...prev, href: value }))
+	}
+
+	const handleAddLink = () => {
+		if (linkDetails.href.length === 0) return
+		createLink(linkDetails.href, linkDetails.platform.key)
+	}
 
 	return (
 		<>
@@ -38,7 +47,7 @@ function AddLinkButton() {
 					{(item) => (
 						<DropdownItem
 							onPress={() => {
-								setNewLinkPlatform(item)
+								setLinkDetails((prev) => ({ ...prev, platform: item }))
 								onOpen()
 							}}
 							key={item.key}
@@ -68,14 +77,20 @@ function AddLinkButton() {
 								<Input
 									autoFocus
 									variant='bordered'
-									placeholder={`www.${newLinkPlatform?.label}.com`}
+									placeholder={`www.${linkDetails?.platform.label}.com`}
+									value={linkDetails.href}
+									onChange={(event) => handleInputChange(event)}
 								/>
 							</ModalBody>
 							<ModalFooter>
 								<Button color='danger' variant='flat' onPress={onClose}>
 									Cancel
 								</Button>
-								<Button color='primary' onPress={onClose}>
+								<Button
+									color='primary'
+									onPress={onClose}
+									onClick={handleAddLink}
+								>
 									Add
 								</Button>
 							</ModalFooter>
