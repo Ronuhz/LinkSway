@@ -1,24 +1,20 @@
-import { AuthLoading, SignedIn, SignedOut } from '@/components/Auth'
-import SignIn from '@/components/Buttons/Sign-In'
-import SignOut from '@/components/Buttons/Sign-Out'
+import { AuthButton, SignedIn } from '@/components/Auth'
+import { getDBUser } from '@/lib/databse'
 import { Button } from '@nextui-org/button'
-import { Spinner } from '@nextui-org/spinner'
+import Link from 'next/link'
 
-export default function Home() {
+export default async function Home() {
+	const dbUser = await getDBUser()
+
 	return (
 		<main className='h-screen flex flex-col gap-2 justify-center items-center p-5'>
 			<h1 className='text-5xl font-black tracking-widest'>LinkSway</h1>
-			<SignedOut>
-				<SignIn />
-			</SignedOut>
+			<AuthButton />
 			<SignedIn>
-				<SignOut />
-			</SignedIn>
-			<AuthLoading>
-				<Button disabled>
-					<Spinner size='sm' />
+				<Button variant='flat' as={Link} href={`/user?id=${dbUser?.id}`}>
+					View my profile
 				</Button>
-			</AuthLoading>
+			</SignedIn>
 		</main>
 	)
 }

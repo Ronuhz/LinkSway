@@ -1,5 +1,6 @@
 'use client'
 
+import { createLink } from '@/lib/actions'
 import { PLATFORMS } from '@/utils/platforms'
 import {
 	Dropdown,
@@ -16,7 +17,6 @@ import {
 	ModalFooter,
 } from '@nextui-org/react'
 import { ChangeEvent, useState } from 'react'
-import { createLink } from '../actions'
 
 function AddLinkButton() {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
@@ -51,8 +51,6 @@ function AddLinkButton() {
 								onOpen()
 							}}
 							key={item.key}
-							color={item.key === 'delete' ? 'danger' : 'default'}
-							className={item.key === 'delete' ? 'text-danger' : ''}
 						>
 							{item.label}
 						</DropdownItem>
