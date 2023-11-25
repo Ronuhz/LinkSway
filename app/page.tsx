@@ -8,11 +8,14 @@ export default async function Home() {
 
 	return (
 		<main className='h-screen flex flex-col gap-2 justify-center items-center p-5'>
-			<h1 className='text-5xl font-black tracking-widest'>LinkSway</h1>
+			<h1 className='text-5xl font-black'>LinkSway</h1>
 			<AuthButton />
 			<SignedIn>
 				<Button variant='flat' as={Link} href={`/user?id=${dbUser?.id}`}>
 					View my profile
+				</Button>
+				<Button variant='flat' as={Link} href={`/edit`}>
+					Edit profile
 				</Button>
 			</SignedIn>
 		</main>

@@ -17,8 +17,11 @@ import {
 	ModalFooter,
 } from '@nextui-org/react'
 import { ChangeEvent, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 function AddLinkButton() {
+	const queryClient = useQueryClient()
+
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [linkDetails, setLinkDetails] = useState({
 		platform: { key: '', label: '' },
@@ -33,6 +36,8 @@ function AddLinkButton() {
 	const handleAddLink = () => {
 		if (linkDetails.href.length === 0) return
 		createLink(linkDetails.href, linkDetails.platform.key)
+		queryClient.invalidateQueries({ queryKey: ['links'] })
+		setLinkDetails((prev) => ({ ...prev, href: '' }))
 	}
 
 	return (

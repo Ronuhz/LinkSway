@@ -20,7 +20,7 @@ export const createLink = async (href: string, type: string) => {
 			console.log(`Error while adding link | actions.ts: ${error}`)
 		)
 
-	revalidatePath('/user')
+	revalidatePath('/edit')
 }
 
 export const deleteLink = async (linkId: string) => {
@@ -41,4 +41,14 @@ export const deleteLink = async (linkId: string) => {
 		)
 
 	revalidatePath('/user')
+}
+
+export const getUserLinks = async () => {
+	const currentUser = await getCurrentUser()
+
+	const links = await prisma.link.findMany({
+		where: { User: { email: currentUser?.email } },
+	})
+
+	return links
 }

@@ -3,6 +3,7 @@ import { Avatar } from '@nextui-org/avatar'
 import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Link } from '@nextui-org/link'
+import { ExternalLink } from 'lucide-react'
 
 type props = {
 	searchParams: {
@@ -34,17 +35,22 @@ async function User({ searchParams }: props) {
 			/>
 			<p className='text-xl'>{dbUser?.name}</p>
 
-			<div className='max-w-[400px] w-full'>
+			<div className='max-w-[400px] w-full flex flex-col gap-2'>
 				{dbUser?.link.map((link) => (
 					<Card
-						className='w-full'
 						key={link.type}
 						as={Link}
 						href={link.href ?? '#'}
 						target='_blank'
+						fullWidth
 					>
 						<CardBody>
 							<p className='text-center'>{link.type}</p>
+							<ExternalLink
+								className='absolute right-7 transform translate-x-1/2 bottom-3'
+								size={20}
+								strokeWidth={1.2}
+							/>
 						</CardBody>
 					</Card>
 				))}
