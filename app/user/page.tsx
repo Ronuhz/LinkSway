@@ -4,8 +4,6 @@ import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Link } from '@nextui-org/link'
 
-export const runtime = 'edge'
-
 type props = {
 	searchParams: {
 		id: string
